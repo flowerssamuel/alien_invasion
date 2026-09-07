@@ -5,10 +5,10 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-from button import Button
 
 
 class AlienInvasion:
@@ -32,11 +32,11 @@ class AlienInvasion:
 
         self._create_fleet()
 
-        # Make the Play button.
-        self.play_button = Button(self, "Play")
-
         # Start Alien Invasion in an inactive state.
         self.game_active = False
+
+        # Make the Play button.
+        self.play_button = Button(self, "Play")
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -79,6 +79,9 @@ class AlienInvasion:
             # Create a new fleet and center the ship.
             self._create_fleet()
             self.ship.center_ship()
+
+            # Hide the mouse cursor.
+            pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
@@ -144,8 +147,10 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_aliens(self):
+        """Update the positions of all aliens in the fleet."""
         """Check if the fleet is at an edge, then update positions."""
         self._check_fleet_edges()
         self.aliens.update()
